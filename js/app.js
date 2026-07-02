@@ -18,6 +18,7 @@ function initApp() {
   renderProducts();
   loadGaleria();
   initLightbox();
+  fetchPromociones();
 }
 
 /* ─── Filter State ──────────────────────────────────────── */
@@ -232,6 +233,93 @@ function initLightbox() {
     // No liberamos inmediatamente para permitir animación de salida
     setTimeout(() => { img.src = ""; }, 300);
   });
+}
+
+/* ─── Promociones Data Model ────────────────────────────── */
+const promocionesSeed = [
+  {
+    id: 1,
+    titulo: "Promoción 2x1",
+    descripcion: "Todos los miércoles, dos mojitos al precio de uno. Válido en toda la carta.",
+    texto_promo: "2x1"
+  },
+  {
+    id: 2,
+    titulo: "Happy Hour",
+    descripcion: "De 6 a 8 pm, descuentos especiales en toda la carta. No te lo pierdas.",
+    texto_promo: "6-8 PM"
+  },
+  {
+    id: 3,
+    titulo: "Noche de Estrenos",
+    descripcion: "Cada primer viernes del mes, probamos un nuevo sabor. Esta noche: Mojito de Maracuyá.",
+    texto_promo: "NUEVO"
+  }
+];
+
+/**
+ * fetchPromociones()
+ * Consulta la tabla 'promociones_destacados' en Supabase.
+ * Filtra por activas, vigentes y ordenadas por orden ASC.
+ * En caso de error, cae al array seed local (fallback).
+ */
+async function fetchPromociones() {
+  const grid = document.getElementById("destacados-grid");
+  if (!grid) return;
+
+  // Mostrar indicador de carga
+  grid.innerHTML = '<p class="loading-msg">Cargando promociones...</p>';
+
+  let promociones = [];
+
+  try {
+    if (!supabase) throw new Error("Supabase client no disponible");
+
+    const ahora = new Date().toISOString();
+
+    const { data, error } = await supabase
+      .from("promociones_destacados")
+      .select("id, titulo, descripcion, texto_promo, url_imagen")
+      .eq("activa", true)
+      .lte("fecha_inicio", ahora)
+      .gte("fecha_fin", ahora)
+      .order("orden", { ascending: true });
+
+    if (error) throw error;
+
+    promociones = data || [];
+
+  } catch (err) {
+    console.warn("Error al cargar promociones desde Supabase, usando fallback local:", err.message);
+    promociones = promocionesSeed;
+  }
+
+  renderPromociones(promociones);
+}
+
+/**
+ * renderPromociones(data)
+ * Renderiza las tarjetas de promociones en #destacados-grid.
+ * Si existe texto_promo, lo muestra como badge destacado.
+ */
+function renderPromociones(data) {
+  const grid = document.getElementById("destacados-grid");
+  if (!grid) return;
+
+  if (!data || data.length === 0) {
+    grid.innerHTML = '<p class="empty-msg">No hay promociones disponibles en este momento.</p>';
+    return;
+  }
+
+  grid.innerHTML = data.map(item => `
+    <article class="card card--promo">
+      ${item.texto_promo ? `<span class="promo-badge">${item.texto_promo}</span>` : ""}
+      <h3>${item.titulo}</h3>
+      <p>${item.descripcion}</p>
+    </article>
+  `).join("");
+
+  refreshScrollReveal();
 }
 
 /* ─── Render Functions ───────────────────────────────────── */

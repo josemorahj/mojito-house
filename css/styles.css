@@ -639,3 +639,38 @@ header a.active {
   color: var(--color-green-lime);
   opacity: 0.9;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MÓDULO: Promociones / Destacados
+   ═══════════════════════════════════════════════════════════ */
+
+/* Contenedor de badge: relativo para posicionar el badge */
+.card--promo {
+  position: relative;
+  overflow: visible;
+}
+
+/* Badpe promocional: gancho visual tipo "2x1", "6-8 PM", "NUEVO" */
+.promo-badge {
+  position: absolute;
+  top: calc(var(--space-sm) * -1);
+  right: var(--space-lg);
+  display: inline-block;
+  padding: var(--space-xxs) var(--space-md);
+  background: var(--color-golden-soft);
+  color: var(--color-charcoal);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  z-index: 2;
+  line-height: 1.4;
+}
+
+/* Variante para promos con badge que necesitan padding-top extra */
+.card--promo {
+  padding-top: calc(var(--space-xl) + var(--space-md));
+}
