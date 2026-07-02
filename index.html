@@ -7,6 +7,38 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- SVG Sprite: iconos inline (oculto visualmente) -->
+    <svg class="icon-sprite" aria-hidden="true" style="display: none;">
+        <defs>
+            <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </symbol>
+            <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </symbol>
+            <symbol id="icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+            </symbol>
+            <symbol id="icon-facebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </symbol>
+            <symbol id="icon-whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </symbol>
+            <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+            </symbol>
+            <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+            </symbol>
+        </defs>
+    </svg>
 
     <header>
         <nav>
@@ -77,8 +109,11 @@
 
         <section id="galeria" class="section">
             <div class="container">
-                <h2 class="section-title">Galeria</h2>
-                <p>Aqui iran las imagenes del lugar y sus mojitos.</p>
+                <h2 class="section-title">Galería</h2>
+                <p class="galeria-intro">El alma de Mojito House en imágenes.</p>
+                <div id="galeria-grid" class="galeria-grid">
+                    <!-- Renderizado dinámico por JS -->
+                </div>
             </div>
         </section>
 
@@ -113,6 +148,24 @@
         <p>&copy; 2026 Mojito House. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Lightbox: visor de imágenes a pantalla completa -->
+    <dialog id="lightbox" class="lightbox" aria-label="Visor de imagen">
+        <button class="lightbox-cerrar" id="lightbox-cerrar" aria-label="Cerrar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+        <div class="lightbox-contenido">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightbox-titulo"></h3>
+                <p id="lightbox-categoria"></p>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
 
