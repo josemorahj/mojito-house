@@ -81,7 +81,7 @@ function initApp() {
   initActiveNavigation();
   initScrollReveal();
   initFilters();
-  renderProducts();
+  fetchProductos();
   loadGaleria();
   initLightbox();
   fetchPromociones();
@@ -89,6 +89,7 @@ function initApp() {
 
 /* ─── Filter State ──────────────────────────────────────── */
 let currentFilter = "all";
+let catalogoProductos = [];  // <- Array activo (Supabase o fallback)
 
 /* ─── Smooth Scroll ─────────────────────────────────────── */
 function initSmoothScroll() {
@@ -388,13 +389,82 @@ function renderPromociones(data) {
   refreshScrollReveal();
 }
 
-/* ─── Render Functions ───────────────────────────────────── */
-function renderProducts(filter = "all") {
+/* ─── Productos Data Model (fallback local) ─────────────── */
+const productosFallback = [
+  {
+    id: 1,
+    name: "Mojito Clásico",
+    description: "El tradicional con hierbabuena, lima y ron blanco.",
+    category: "clasico"
+  },
+  {
+    id: 2,
+    name: "Mojito de Fresa",
+    description: "Fresas frescas maceradas con hierbabuena y un toque de limón.",
+    category: "frutal"
+  },
+  {
+    id: 3,
+    name: "Mojito de Piña",
+    description: "Toque tropical con piña natural, coco y ron dorado.",
+    category: "tropical"
+  },
+  {
+    id: 4,
+    name: "Mojito de Mango",
+    description: "Mango maduro, chile y un toque de cilantro fresco.",
+    category: "frutal"
+  }
+];
+
+/**
+ * fetchProductos()
+ * Consulta la tabla 'productos_catalogo' en Supabase.
+ * En caso de éxito, guarda los datos en catalogoProductos y renderiza.
+ * En caso de error, cae al array fallback local.
+ */
+async function fetchProductos() {
   const catalogoSection = document.querySelector("#catalogo");
+  if (!catalogoSection) return;
+
+  // Mostrar indicador de carga
+  catalogoSection.innerHTML = `
+    <div class="container">
+      <p class="loading-msg">Cargando catálogo...</p>
+    </div>
+  `;
+
+  let productos = [];
+
+  try {
+    if (!supabase) throw new Error("Supabase client no disponible");
+
+    const { data, error } = await supabase
+      .from("productos_catalogo")
+      .select("id, name, description, category")
+      .order("id", { ascending: true });
+
+    if (error) throw error;
+
+    productos = data || [];
+
+  } catch (err) {
+    console.warn("Error al cargar productos desde Supabase, usando fallback local:", err.message);
+    productos = productosFallback;
+  }
+
+  catalogoProductos = productos;
+  renderProducts(catalogoProductos, currentFilter);
+}
+
+/* ─── Render Functions ───────────────────────────────────── */
+function renderProducts(productsArray, filter = "all") {
+  const catalogoSection = document.querySelector("#catalogo");
+  if (!catalogoSection) return;
 
   const filteredProducts = filter === "all"
-    ? products
-    : products.filter(p => p.category === filter);
+    ? productsArray
+    : productsArray.filter(p => p.category === filter);
 
   const html = filteredProducts.map(product => `
     <div class="card">
@@ -435,7 +505,9 @@ function initFilters() {
     document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
-    renderProducts(filter);
+    if (catalogoProductos.length > 0) {
+      renderProducts(catalogoProductos, filter);
+    }
   });
 }
 
