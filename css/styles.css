@@ -1,0 +1,380 @@
+/* =========================================================
+
+   MOJITO HOUSE — Design Tokens & Base System
+   Estilo: Tropical Premium
+   ========================================================= */
+
+/* ─── Design Tokens ─────────────────────────────────────── */
+:root {
+  /* Colores principales */
+  --color-green-deep:      #1B7A4A;
+  --color-green-lime:      #A3D977;
+  --color-white-warm:      #FFF8F0;
+  --color-cream-toast:     #F5E6D3;
+  --color-charcoal:        #1A1A2E;
+  --color-golden-soft:     #D4A84B;
+
+  /* Variantes semánticas */
+  --color-bg-primary:      var(--color-white-warm);
+  --color-bg-secondary:    var(--color-cream-toast);
+  --color-text-primary:    var(--color-charcoal);
+  --color-text-inverse:    var(--color-white-warm);
+  --color-accent:          var(--color-green-deep);
+  --color-accent-light:    var(--color-green-lime);
+  --color-cta:             var(--color-golden-soft);
+  --color-cta-hover:       #C4953A;
+  --color-footer-bg:       var(--color-charcoal);
+
+  /* Tipografía - Familias */
+  --font-heading:          'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:             'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Tipografía - Pesos */
+  --weight-regular:        400;
+  --weight-medium:         500;
+  --weight-semibold:       600;
+  --weight-bold:           700;
+
+  /* Spacing system (escala 4px) */
+  --space-xxs:             4px;
+  --space-xs:              8px;
+  --space-sm:              12px;
+  --space-md:              16px;
+  --space-lg:              24px;
+  --space-xl:              32px;
+  --space-2xl:             48px;
+  --space-3xl:             64px;
+  --space-4xl:             96px;
+
+  /* Border-radius system */
+  --radius-sm:             6px;
+  --radius-md:             12px;
+  --radius-lg:             20px;
+  --radius-xl:             30px;
+  --radius-full:           50%;
+
+  /* Shadow system (suave, premium) */
+  --shadow-sm:             0 2px 8px rgba(26, 26, 46, 0.06);
+  --shadow-md:             0 4px 16px rgba(26, 26, 46, 0.08);
+  --shadow-lg:             0 8px 32px rgba(26, 26, 46, 0.10);
+  --shadow-xl:             0 12px 48px rgba(26, 26, 46, 0.12);
+
+  /* Transiciones */
+  --transition-fast:       0.2s ease;
+  --transition-base:       0.3s ease;
+  --transition-slow:       0.5s ease;
+
+  /* Contenedor máximo */
+  --max-width:             1200px;
+}
+
+/* ─── Google Fonts (carga optimizada) ──────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+/* ─── Reset CSS Moderno ─────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  line-height: 1.2;
+}
+
+p {
+  overflow-wrap: break-word;
+}
+
+/* ─── Estilos Base ──────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+/* ─── Componentes Reutilizables ─────────────────────────── */
+
+/* .container — Layout estándar centrado */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+/* .section — Padding estándar para todas las secciones */
+.section {
+  padding: var(--space-4xl) var(--space-lg);
+  position: relative;
+}
+
+/* .section-title — h2 estándar de secciones */
+.section-title {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-semibold);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--color-accent);
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  line-height: 1.2;
+}
+
+/* .btn — Botón base reutilizable */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size: 1.05rem;
+  padding: var(--space-md) var(--space-2xl);
+  border-radius: var(--radius-xl);
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color var(--transition-base),
+              transform var(--transition-base),
+              box-shadow var(--transition-base);
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* .btn-primary — Variación CTA dorado */
+.btn-primary {
+  color: var(--color-text-inverse);
+  background-color: var(--color-cta);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-cta-hover);
+  color: var(--color-text-inverse);
+}
+
+/* ─── Card System ────────────────────────────────────────── */
+
+/* .card — Tarjeta reutilizable premium */
+.card {
+  background-color: var(--color-white-warm);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card h3 {
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: var(--weight-semibold);
+}
+
+.card p {
+  color: var(--color-text-primary);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+/* .card-grid — Grid responsivo para cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+/* ─── Hero / #inicio ────────────────────────────────────── */
+#inicio {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--color-bg-primary);
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+#inicio::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, var(--color-accent-light) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 50%, var(--color-cream-toast) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+#inicio h1 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  color: var(--color-accent);
+  margin-bottom: var(--space-lg);
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.15;
+  text-shadow: var(--shadow-sm);
+}
+
+#inicio p {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: var(--color-text-primary);
+  max-width: 560px;
+  margin-bottom: var(--space-2xl);
+  position: relative;
+  z-index: 1;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+#inicio a {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size: 1.05rem;
+  color: var(--color-text-inverse);
+  background-color: var(--color-cta);
+  padding: var(--space-md) var(--space-2xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-base),
+              transform var(--transition-base),
+              box-shadow var(--transition-base);
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#inicio a:hover {
+  background-color: var(--color-cta-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-inverse);
+}
+
+/* Headings globales */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-accent);
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: var(--weight-bold);
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: var(--weight-semibold);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: var(--weight-semibold);
+}
+
+/* Links base */
+a {
+  color: var(--color-accent);
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-green-lime);
+}
+
+/* Texto seleccionado */
+::selection {
+  background-color: var(--color-green-lime);
+  color: var(--color-charcoal);
+}
+
+/* Scrollbar sutil (navegadores compatibles) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-green-deep);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-golden-soft);
+}
