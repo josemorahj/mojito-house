@@ -4,6 +4,71 @@
    Estilo: Tropical Premium
    ========================================================= */
 
+/* ─── Módulo: Modo Oscuro (ThemeManager) ───────────────── */
+const ThemeManager = (() => {
+  const STORAGE_KEY = 'mojito-theme';
+  const THEME_DARK = 'dark';
+  const THEME_LIGHT = 'light';
+
+  let $toggleBtn = null;
+
+  const getSystemPreference = () =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? THEME_DARK
+      : THEME_LIGHT;
+
+  const getActiveTheme = () => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return stored;
+    return getSystemPreference();
+  };
+
+  const applyTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+    updateToggleIcon(theme);
+  };
+
+  const toggle = () => {
+    const current =
+      document.documentElement.getAttribute('data-theme') || THEME_LIGHT;
+    const next = current === THEME_DARK ? THEME_LIGHT : THEME_DARK;
+    applyTheme(next);
+  };
+
+  const updateToggleIcon = (theme) => {
+    if (!$toggleBtn) return;
+    const $use = $toggleBtn.querySelector('use');
+    if ($use) {
+      $use.setAttribute(
+        'href',
+        theme === THEME_DARK ? '#icon-sun' : '#icon-moon'
+      );
+    }
+  };
+
+  const watchSystemTheme = () => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        applyTheme(e.matches ? THEME_DARK : THEME_LIGHT);
+      }
+    });
+  };
+
+  const init = (toggleSelector = '#theme-toggle') => {
+    $toggleBtn = document.querySelector(toggleSelector);
+    if ($toggleBtn) {
+      $toggleBtn.addEventListener('click', toggle);
+    }
+    const currentTheme = getActiveTheme();
+    applyTheme(currentTheme);
+    watchSystemTheme();
+  };
+
+  return { init, toggle };
+})();
+
 /* ─── DOM Content Loaded ────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
@@ -11,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ─── Initializer ───────────────────────────────────────── */
 function initApp() {
+  ThemeManager.init('#theme-toggle');
   initSmoothScroll();
   initActiveNavigation();
   initScrollReveal();
