@@ -4,6 +4,59 @@
    Estilo: Tropical Premium
    ========================================================= */
 
+/* ─── CONFIG — Configuración centralizada ──────────────── */
+// ⚠️ REEMPLAZAR whatsappNumber con el número real antes de producción
+// Formato: código de país + número sin espacios ni signos
+// Ejemplo: "521234567890"
+const CONFIG = {
+  whatsappNumber: "REEMPLAZAR_AQUI", // ← CAMBIAR ANTES DE PRODUCCIÓN
+  whatsappTemplates: {
+    general: "Hola, vi la web de La Ruta del Litro y me gustaría recibir información.",
+    catalogo: (producto) =>
+      `Hola, vi el ${producto} en la web de La Ruta del Litro y me gustaría recibir información.`,
+    promo: (promo) =>
+      `Hola, vi la promoción "${promo}" en la web de La Ruta del Litro y me gustaría recibir información.`,
+    evento: (tipo) =>
+      `Hola, quiero cotizar un evento (${tipo}) para La Ruta del Litro.`
+  }
+};
+
+/**
+ * getWhatsAppLink(template, param)
+ * Genera enlace de WhatsApp usando CONFIG centralizado.
+ * @param {string} template - Clave del template ('general', 'catalogo', 'promo', 'evento')
+ * @param {string} param - Parámetro para templates que lo requieren
+ * @returns {string} URL completa de WhatsApp
+ */
+function getWhatsAppLink(template = "general", param = "") {
+  const number = CONFIG.whatsappNumber;
+  const templates = CONFIG.whatsappTemplates;
+
+  let message = templates.general;
+  if (template === "catalogo" && param) {
+    message = templates.catalogo(param);
+  } else if (template === "promo" && param) {
+    message = templates.promo(param);
+  } else if (template === "evento" && param) {
+    message = templates.evento(param);
+  }
+
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
+
+/* ─── Supabase Client (global) ─────────────────────────── */
+// Si no existe el SDK de Supabase, se define un proxy vacío
+// para evitar errores de referencia en el catch.
+const supabase = window.supabase || null;
+
+/* ─── Año dinámico en footer ───────────────────────────── */
+(function setCurrentYear() {
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+})();
+
 /* ─── Módulo: Modo Oscuro (ThemeManager) ───────────────── */
 const ThemeManager = (() => {
   const STORAGE_KEY = 'mojito-theme';
@@ -81,6 +134,8 @@ function initApp() {
   initActiveNavigation();
   initScrollReveal();
   initFilters();
+    initWhatsAppDelegated();
+  initWhatsAppFloat();
   fetchProductos();
   loadGaleria();
   initLightbox();
@@ -136,123 +191,125 @@ function initActiveNavigation() {
     observer.observe(section);
   });
 }
-/* ─── Intersection Observer ─────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   VISIBILITY CONTROLLER (PRO)
+   "La visibilidad no depende del tiempo, depende del estado del DOM"
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Estado único ──────────────────────────────────────── */
+const visibilityState = {
+  initialized: false,
+  observed: new Set()
+};
+
+/* ─── Observer global ───────────────────────────────────── */
+const scrollRevealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      scrollRevealObserver.unobserve(entry.target);
+      visibilityState.observed.add(entry.target);
+    }
+  });
+}, {
+  threshold: 0.15
+});
+
+/* ─── safeReveal() — Reemplaza COMPLETAMENTE el setTimeout ─ */
+function safeReveal() {
+  const elements = document.querySelectorAll(
+    '.card, .section-title'
+  );
+
+  elements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+
+    const isInViewport =
+      rect.top < window.innerHeight &&
+      rect.bottom > 0;
+
+    if (isInViewport) {
+      el.classList.add('visible');
+      scrollRevealObserver.unobserve(el);
+      visibilityState.observed.add(el);
+    }
+  });
+}
+
+/* ─── initScrollReveal() Limpio ─────────────────────────── */
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.card, .section-title, #inicio, .galeria-item');
+  const elements = document.querySelectorAll(
+    '.card, .section-title'
+  );
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.2
+  elements.forEach(el => {
+    if (!el.classList.contains('visible')) {
+      scrollRevealObserver.observe(el);
+    }
   });
 
-  revealElements.forEach(element => {
-    observer.observe(element);
+  //  SOLO UNA VEZ, SIN TIMERS
+  requestAnimationFrame(() => {
+    safeReveal();
   });
+
+  visibilityState.initialized = true;
 }
-/* ─── Refresh Scroll Reveal ─────────────────────────────── */
+
+/* ─── refreshScrollReveal() Correcto ────────────────────── */
 function refreshScrollReveal() {
-  initScrollReveal();
-}
+  const newElements = document.querySelectorAll(
+    '.card, .section-title'
+  );
 
-/* ─── Gallery Data Model ─────────────────────────────────── */
-const galeriaImagenes = [
-  {
-    id: 1,
-    url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80",
-    alt: "Mojito Clásico servido en vaso alto con hierbabuena y lima",
-    titulo: "Mojito Clásico",
-    categoria: "Coctelería"
-  },
-  {
-    id: 2,
-    url: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
-    alt: "Coctel de frutos rojos decorado con fresas",
-    titulo: "Mojito de Frutos Rojos",
-    categoria: "Coctelería"
-  },
-  {
-    id: 3,
-    url: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80",
-    alt: "Barra iluminada con cocteles tropicales al atardecer",
-    titulo: "Nuestra Barra",
-    categoria: "Ambiente"
-  },
-  {
-    id: 4,
-    url: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=600&q=80",
-    alt: "Grupo de personas brindando con mojitos en la terraza",
-    titulo: "Momentos Inolvidables",
-    categoria: "Experiencia"
-  },
-  {
-    id: 5,
-    url: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=80",
-    alt: "Mojito tropical decorado con rodaja de piña y flores",
-    titulo: "Mojito Tropical",
-    categoria: "Coctelería"
-  },
-  {
-    id: 6,
-    url: "https://images.unsplash.com/photo-1571167530141-f5b98fa05d1b?w=600&q=80",
-    alt: "Interior del local con iluminación cálida y plantas",
-    titulo: "El Local",
-    categoria: "Ambiente"
-  }
-];
+  newElements.forEach(el => {
+    if (
+      !el.classList.contains('visible') &&
+      !visibilityState.observed.has(el)
+    ) {
+      scrollRevealObserver.observe(el);
+    }
+  });
+
+  safeReveal();
+}
 
 /* ─── Gallery State ─────────────────────────────────────── */
 let galeriaData = [];
 
 /**
  * loadGaleria()
- * Carga los datos de la galería y renderiza el grid.
- * Fase 1: usa array local (galeriaImagenes).
- * Fase 2 (futuro): reemplazar por fetch a Supabase.
+ * Carga la galería Bento. Si hay datos personalizados los usa,
+ * si no, BentoGallery usa automáticamente su MOCKUP_BANK interno.
+ *
+ * Para usar datos propios, pasar un array como segundo parámetro:
+ *   BentoGallery.init('#galeria-grid', misImagenes);
+ *
+ * El MOCKUP_BANK también está disponible como:
+ *   BentoGallery.MOCKUP_BANK
  */
 function loadGaleria() {
-  galeriaData = galeriaImagenes;
-  renderGaleria();
-}
+  // Inicializar BentoGallery con fallback automático a MOCKUP_BANK
+  BentoGallery.init('#galeria-grid');
 
-/**
- * renderGaleria()
- * Renderiza el grid de imágenes en #galeria-grid.
- * Cada item es un <figure> con img, overlay figcaption y data-id.
- */
-function renderGaleria() {
-  const grid = document.getElementById("galeria-grid");
-  if (!grid) return;
-
-  if (galeriaData.length === 0) {
-    grid.innerHTML = '<p class="empty-msg">Galería próximamente.</p>';
-    return;
-  }
-
-  grid.innerHTML = galeriaData.map(item => `
-    <figure class="galeria-item" data-id="${item.id}" role="button" tabindex="0"
-            aria-label="Ver imagen: ${item.titulo}">
-      <img
-        src="${item.url}"
-        alt="${item.alt}"
-        loading="lazy"
-        width="600"
-        height="450"
-      >
-      <figcaption>
-        <h3>${item.titulo}</h3>
-        <span>${item.categoria}</span>
-      </figcaption>
-    </figure>
-  `).join("");
-
-  // Refrescar scroll reveal para los nuevos elementos del DOM
-  refreshScrollReveal();
+  // Actualizar galeriaData desde las celdas del DOM
+  // (para el lightbox, que necesita los datos originales)
+  galeriaData = [];
+  document.querySelectorAll('#galeria-grid .bento-cell[data-bento-id]').forEach((cell) => {
+    const id = Number(cell.dataset.bentoId);
+    const img = cell.querySelector('.bento-cell__img');
+    const titleEl = cell.querySelector('.bento-cell__overlay-title');
+    const metaEl = cell.querySelector('.bento-cell__overlay-meta');
+    if (id && img) {
+      galeriaData.push({
+        id: id,
+        url: img.src,
+        alt: img.alt,
+        titulo: titleEl ? titleEl.textContent : '',
+        categoria: metaEl ? metaEl.textContent.trim() : ''
+      });
+    }
+  });
 }
 
 /**
@@ -270,12 +327,12 @@ function initLightbox() {
 
   if (!dialog || !btnCerrar) return;
 
-  // Delegación: clic en cualquier galeria-item
+    // Delegación: clic en cualquier bento-cell (imagen)
   document.addEventListener("click", (e) => {
-    const item = e.target.closest(".galeria-item");
+    const item = e.target.closest(".bento-cell:not(.bento-cell--breather)");
     if (!item) return;
 
-    const id = Number(item.dataset.id);
+        const id = Number(item.dataset.bentoId);
     const data = galeriaData.find(g => g.id === id);
     if (!data) return;
 
@@ -378,11 +435,18 @@ function renderPromociones(data) {
     return;
   }
 
-  grid.innerHTML = data.map(item => `
+    grid.innerHTML = data.map(item => `
     <article class="card card--promo">
       ${item.texto_promo ? `<span class="promo-badge">${item.texto_promo}</span>` : ""}
       <h3>${item.titulo}</h3>
       <p>${item.descripcion}</p>
+      <button
+        class="btn btn-whatsapp card__btn"
+        data-whatsapp-template="promo"
+        data-whatsapp-param="${item.titulo}"
+      >
+        Consultar
+      </button>
     </article>
   `).join("");
 
@@ -395,25 +459,38 @@ const productosFallback = [
     id: 1,
     name: "Mojito Clásico",
     description: "El tradicional con hierbabuena, lima y ron blanco.",
-    category: "clasico"
+    category: "clasico",
+    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80"
   },
   {
     id: 2,
     name: "Mojito de Fresa",
     description: "Fresas frescas maceradas con hierbabuena y un toque de limón.",
-    category: "frutal"
+    category: "frutal",
+    image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400&q=80"
   },
   {
     id: 3,
     name: "Mojito de Piña",
     description: "Toque tropical con piña natural, coco y ron dorado.",
-    category: "tropical"
+    category: "tropical",
+    image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400&q=80"
   },
   {
     id: 4,
     name: "Mojito de Mango",
     description: "Mango maduro, chile y un toque de cilantro fresco.",
-    category: "frutal"
+    category: "frutal",
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c?w=400&q=80"
+  },
+  {
+    id: 5,
+    name: "Mojito del Mes — Maracuyá",
+    description: "Edición limitada: maracuyá fresco, jengibre y un toque de chili. ⚡ Solo por tiempo limitado.",
+    category: "tropical",
+    image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=80",
+    isFeatured: true,
+    featuredLayout: "vertical"
   }
 ];
 
@@ -424,15 +501,11 @@ const productosFallback = [
  * En caso de error, cae al array fallback local.
  */
 async function fetchProductos() {
-  const catalogoSection = document.querySelector("#catalogo");
-  if (!catalogoSection) return;
+  const grid = document.getElementById("catalogo-grid");
+  if (!grid) return;
 
   // Mostrar indicador de carga
-  catalogoSection.innerHTML = `
-    <div class="container">
-      <p class="loading-msg">Cargando catálogo...</p>
-    </div>
-  `;
+  grid.innerHTML = '<p class="loading-msg">Cargando catálogo...</p>';
 
   let productos = [];
 
@@ -459,38 +532,57 @@ async function fetchProductos() {
 
 /* ─── Render Functions ───────────────────────────────────── */
 function renderProducts(productsArray, filter = "all") {
-  const catalogoSection = document.querySelector("#catalogo");
-  if (!catalogoSection) return;
+  const grid = document.getElementById("catalogo-grid");
+  if (!grid) return;
 
   const filteredProducts = filter === "all"
     ? productsArray
     : productsArray.filter(p => p.category === filter);
 
-  const html = filteredProducts.map(product => `
-    <div class="card">
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-    </div>
-  `).join("");
+  // Marcar el botón activo del filtro actual
+  document.querySelectorAll(".filters button").forEach(b => {
+    b.classList.toggle("active", b.dataset.filter === filter);
+  });
 
-  catalogoSection.innerHTML = `
-    <div class="container">
-      <h2 class="section-title">Catálogo</h2>
+  // Pipeline: inyectar respiros visuales cada 3 productos
+  const mixedArray = CatalogPipeline.inject(filteredProducts, { interval: 3 });
 
-      <div class="filters">
-        <button data-filter="all">Todos</button>
-        <button data-filter="clasico">Clásico</button>
-        <button data-filter="frutal">Frutal</button>
-        <button data-filter="tropical">Tropical</button>
-      </div>
+  // Renderizar el array mixto
+  const html = mixedArray.map(item => {
+    if (item.type === 'breather') {
+      return BreatherCard.render(item);
+    }
+    return ProductCard.render(item);
+  }).join("");
 
-      <div class="card-grid">
-        ${html}
-      </div>
-    </div>
-  `;
-
+  grid.innerHTML = html;
   refreshScrollReveal();
+}
+
+/* ─── WhatsApp Click Handler (delegado) ──────────────── */
+// Captura todos los elementos con data-whatsapp-template
+// Hero CTA (<a>), cards de catálogo (<button>), promos, eventos, contacto
+function initWhatsAppDelegated() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-whatsapp-template]");
+    if (!btn) return;
+
+    e.preventDefault();
+    const template = btn.dataset.whatsappTemplate;
+    const param = btn.dataset.whatsappParam || "";
+    window.open(getWhatsAppLink(template, param), "_blank");
+  });
+}
+
+/* ─── WhatsApp Floating Button ────────────────────────── */
+function initWhatsAppFloat() {
+  const floatBtn = document.getElementById("whatsapp-float");
+  if (!floatBtn) return;
+
+  floatBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.open(getWhatsAppLink("general"), "_blank");
+  });
 }
 
 /* ─── Filter Events ─────────────────────────────────────── */

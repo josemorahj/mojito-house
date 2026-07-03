@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mojito House</title>
+    <title>La Ruta del Litro — Mojitos artesanales</title>
     <!-- ⚡ Anti-flicker: aplicar tema antes del primer render -->
     <script>
       (function() {
@@ -15,6 +15,7 @@
       })();
     </script>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/gallery-bento.css">
 </head>
 <body>
     <!-- SVG Sprite: iconos inline (oculto visualmente) -->
@@ -33,9 +34,6 @@
                 <rect x="2" y="2" width="20" height="20" rx="5"/>
                 <circle cx="12" cy="12" r="5"/>
                 <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
-            </symbol>
-            <symbol id="icon-facebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
             </symbol>
             <symbol id="icon-whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
@@ -61,6 +59,75 @@
             <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </symbol>
+            <symbol id="icon-delivery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="12" rx="2"/>
+                <circle cx="7" cy="18" r="2"/>
+                <circle cx="17" cy="18" r="2"/>
+                <line x1="9" y1="18" x2="15" y2="18"/>
+            </symbol>
+            <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </symbol>
+            <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </symbol>
+                        <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+            </symbol>
+            <!-- Iconos vectoriales premium (reemplazan emojis de sistema) -->
+            <symbol id="icon-flame" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C12 2 8 6 8 10C8 13.3137 10.6863 16 14 16C17.3137 16 20 13.3137 20 10C20 6 16 4 12 2Z" fill="currentColor" opacity="0.3"/>
+                <path d="M12 2C12 2 8 6 8 10C8 13.3137 10.6863 16 14 16C14.5 16 14.5 16 14 16C14 17.5 13 19 11 19C9 19 8 17.5 8 16C8 18 9 21 12 22C15 21 16 18 16 16C16 13.5 14.5 12 14 10C13.5 8 12.5 6 12 2Z" fill="currentColor"/>
+            </symbol>
+            <symbol id="icon-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 12V22H4V12"/>
+                <path d="M22 7H2V12H22V7Z"/>
+                <path d="M12 22V7"/>
+                <path d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C10 2 12 7 12 7Z"/>
+                <path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C14 2 12 7 12 7Z"/>
+            </symbol>
+            <symbol id="icon-handshake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 14C20 14 17 12 14 12C11 12 9 14 4 12C3 11.5 2 11 1 12"/>
+                <path d="M20 14L22 20"/>
+                <path d="M4 12L2 18"/>
+                <path d="M6 18H18"/>
+                <path d="M8 22H16"/>
+                <path d="M12 14C14 14 16 16 16 18"/>
+                <path d="M8 18C8 16 9.5 14 12 14"/>
+            </symbol>
+            <symbol id="icon-champagne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8L18 8"/>
+                <path d="M7 8C7 8 8 3 9 2C10 1 14 1 15 2C16 3 17 8 17 8"/>
+                <path d="M9 14H11L10 20H8L9 14Z" fill="currentColor" opacity="0.3"/>
+                <path d="M13 14H15L14 20H12L13 14Z" fill="currentColor" opacity="0.3"/>
+                <path d="M8 20H16"/>
+                <path d="M12 20V22"/>
+            </symbol>
+            <symbol id="icon-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 22V2H15V6"/>
+                <path d="M21 22V10H15V22"/>
+                <path d="M7 6H9"/><path d="M7 10H9"/><path d="M7 14H9"/>
+                <path d="M11 6H13"/><path d="M11 10H13"/><path d="M11 14H13"/>
+                <path d="M17 14H19"/><path d="M17 18H19"/>
+                <path d="M7 18H13"/>
+            </symbol>
+            <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12L12 3L21 12"/>
+                <path d="M5 10V20H19V10"/>
+                <path d="M9 20V14H15V20"/>
+            </symbol>
+            <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L4 14H12L11 22L20 10H12L13 2Z"/>
+            </symbol>
+            <symbol id="icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3L14.5 9L21 9.5L16 14L17.5 21L12 17.5L6.5 21L8 14L3 9.5L9.5 9L12 3Z" fill="currentColor" opacity="0.3"/>
+                <path d="M5 5L7 7"/><path d="M19 17L21 19"/>
+                <path d="M5 19L7 17"/><path d="M19 5L21 7"/>
+            </symbol>
         </defs>
     </svg>
 
@@ -68,11 +135,8 @@
         <nav>
             <ul>
                 <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#historia">Historia</a></li>
-                <li><a href="#catalogo">Catalogo</a></li>
-                <li><a href="#destacados">Destacados</a></li>
-                <li><a href="#galeria">Galeria</a></li>
-                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#catalogo">Sabores</a></li>
+                <li><a href="#eventos">Eventos</a></li>
                 <li><a href="#contacto">Contacto</a></li>
                 <li>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo oscuro/claro" title="Modo oscuro">
@@ -87,92 +151,216 @@
 
     <main>
 
-        <section id="inicio" class="section">
-            <div class="container">
-                <h1>El sabor que despierta tus sentidos</h1>
-                <p>Mojitos artesanales preparados con ingredientes frescos y la pasion que nos distingue desde 2018.</p>
-                <a class="btn btn-primary" href="#catalogo">Ver Catalogo</a>
-            </div>
-        </section>
+        <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 1 — HERO
+             ═══════════════════════════════════════════════════ -->
+        <section id="inicio" class="section hero">
+            <div class="hero__layout container">
+                <div class="hero__content">
+                                        <h1 class="hero__title">La Ruta del Litro</h1>
+                    <p class="hero__subtitle">Mojitos artesanales hechos con propósito: para que disfrutes sin moverte de casa o hagamos de tu evento una fiesta.</p>
 
-        <section id="historia" class="section">
-            <div class="container">
-                <h2 class="section-title">Nuestra Historia</h2>
-                <p>Mojito House nacio de la pasion por los cocteles clasicos y la buena compania.</p>
-            </div>
-        </section>
+                    <div class="hero__actions">
+                        <a class="btn btn--whatsapp-primary hero__cta-main"
+                           data-whatsapp-template="general">
+                            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+                            Pedir por WhatsApp
+                        </a>
+                        <a class="btn btn--outline hero__cta-sec" href="#catalogo">
+                            Ver Sabores <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
+                        </a>
+                    </div>
+                </div>
 
-        <section id="catalogo" class="section">
-            <div class="container">
-                <h2 class="section-title">Catalogo</h2>
-                <div class="card-grid">
-                    <article class="card">
-                        <h3>Mojito Clasico</h3>
-                        <p>Ron blanco, hierbabuena, lima, azucar y soda.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Mojito de Frutos Rojos</h3>
-                        <p>Mojito tradicional con un toque de frutos rojos.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Mojito Tropical</h3>
-                        <p>Pina, coco y un toque de ron dorado.</p>
-                    </article>
+                <div class="hero__image">
+                    <!-- HERO-IMAGE: reemplazar con URL real -->
+                    <!-- Formatos recomendados: 600x650px, webp/avif con fallback jpg -->
+                    <img
+                        src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80"
+                        alt="Mojito artesanal de La Ruta del Litro"
+                        loading="eager"
+                        width="600"
+                        height="650"
+                    >
                 </div>
             </div>
         </section>
 
-        <section id="destacados" class="section">
+        <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 2 — CATÁLOGO / SABORES
+             ═══════════════════════════════════════════════════ -->
+        <section id="catalogo" class="section">
             <div class="container">
-                <h2 class="section-title">Destacados</h2>
+                <h2 class="section-title">Nuestros Sabores</h2>
+                <div class="filters">
+                    <button data-filter="all" class="active">Todos</button>
+                    <button data-filter="clasico">Clásico</button>
+                    <button data-filter="frutal">Frutal</button>
+                    <button data-filter="tropical">Tropical</button>
+                </div>
+                                <div class="card-grid card-grid--catalog" id="catalogo-grid">
+                    <!-- Renderizado dinámico por JS -->
+                </div>
+            </div>
+        </section>
+
+                <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 3 — PROMOCIONES
+             ═══════════════════════════════════════════════════ -->
+        <section id="promociones" class="section">
+            <div class="container">
+                <h2 class="section-title">Promociones</h2>
                 <div id="destacados-grid" class="card-grid">
                     <!-- Renderizado dinámico por JS -->
                 </div>
             </div>
         </section>
 
+                <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 4 — EVENTOS
+             ═══════════════════════════════════════════════════ -->
+        <section id="eventos" class="section section--eventos">
+            <div class="container">
+                <div class="eventos__layout">
+                    <div class="eventos__content">
+                        <h2 class="section-title">Eventos con sabor</h2>
+                        <p class="eventos__intro">Haz de tu próxima celebración una experiencia inolvidable con nuestros mojitos artesanales. Tú pon el motivo, nosotros ponemos el sabor.</p>
+
+                                                <div class="eventos__tipos">
+                            <div class="evento-tipo">
+                                <svg class="evento-tipo__icon" width="28" height="28" aria-hidden="true"><use href="#icon-gift"></use></svg>
+                                <span class="evento-tipo__label">Cumpleaños</span>
+                            </div>
+                            <div class="evento-tipo">
+                                <svg class="evento-tipo__icon" width="28" height="28" aria-hidden="true"><use href="#icon-handshake"></use></svg>
+                                <span class="evento-tipo__label">Juntas</span>
+                            </div>
+                            <div class="evento-tipo">
+                                <svg class="evento-tipo__icon" width="28" height="28" aria-hidden="true"><use href="#icon-champagne"></use></svg>
+                                <span class="evento-tipo__label">Celebraciones</span>
+                            </div>
+                            <div class="evento-tipo">
+                                <svg class="evento-tipo__icon" width="28" height="28" aria-hidden="true"><use href="#icon-building"></use></svg>
+                                <span class="evento-tipo__label">Empresas</span>
+                            </div>
+                            <div class="evento-tipo">
+                                <svg class="evento-tipo__icon" width="28" height="28" aria-hidden="true"><use href="#icon-home"></use></svg>
+                                <span class="evento-tipo__label">Eventos privados</span>
+                            </div>
+                        </div>
+
+                                                <a class="btn btn--whatsapp-primary eventos__cta"
+                           data-whatsapp-template="evento"
+                           data-whatsapp-param="cotización general">
+                            <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+                            Solicitar Cotización
+                        </a>
+                    </div>
+
+                    <div class="eventos__images">
+                        <!-- EVENTOS-IMAGE: reemplazar con URLs reales -->
+                        <!-- Slot 1: foto de barra o coctelería -->
+                        <div class="eventos-img-slot">
+                            <img
+                                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&q=80"
+                                alt="Barra de mojitos para eventos"
+                                loading="lazy"
+                                width="400"
+                                height="300"
+                            >
+                        </div>
+                        <!-- Slot 2: foto de celebración/grupo -->
+                        <div class="eventos-img-slot">
+                            <img
+                                src="https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=400&q=80"
+                                alt="Celebración con mojitos"
+                                loading="lazy"
+                                width="400"
+                                height="300"
+                            >
+                        </div>
+                        <!-- Slot 3: foto de montaje/mesa -->
+                        <div class="eventos-img-slot">
+                            <img
+                                src="https://images.unsplash.com/photo-1551751299-1b51cab2694c?w=400&q=80"
+                                alt="Mesa de mojitos para eventos"
+                                loading="lazy"
+                                width="400"
+                                height="300"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 6 — NUESTROS MOJITOS
+             ═══════════════════════════════════════════════════ -->
         <section id="galeria" class="section">
             <div class="container">
-                <h2 class="section-title">Galería</h2>
-                <p class="galeria-intro">El alma de Mojito House en imágenes.</p>
-                <div id="galeria-grid" class="galeria-grid">
-                    <!-- Renderizado dinámico por JS -->
+                                <h2 class="section-title">Nuestros Mojitos</h2>
+                <p class="galeria-intro">El alma de La Ruta del Litro en imágenes.</p>
+                                <div id="galeria-grid">
+                    <!-- Renderizado dinámico por BentoGallery -->
                 </div>
             </div>
         </section>
 
-        <section id="testimonios" class="section">
-            <div class="container">
-                <h2 class="section-title">Testimonios</h2>
-                <div class="card-grid">
-                    <article class="card">
-                        <h3>Maria G.</h3>
-                        <p>"Los mejores mojitos de la ciudad. Totalmente recomendado."</p>
-                    </article>
-                    <article class="card">
-                        <h3>Carlos P.</h3>
-                        <p>"Ambiente increible y atencion de primera. Volvere sin duda."</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="contacto" class="section">
+        <!-- ═══════════════════════════════════════════════════
+             SECCIÓN 7 — CONTACTO (SIMPLIFICADO)
+             ═══════════════════════════════════════════════════ -->
+        <section id="contacto" class="section section--alt">
             <div class="container">
                 <h2 class="section-title">Contacto</h2>
-                <p>Direccion: Calle Principal #123, Centro.</p>
-                <p>Telefono: +1 234 567 890</p>
-                <p>Email: info@mojitohouse.com</p>
+                <div class="contacto-grid">
+                    <a class="contacto-item"
+                       data-whatsapp-template="general">
+                        <svg class="icon icon--md" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+                        <span>WhatsApp</span>
+                        <small>Respuesta rápida</small>
+                    </a>
+                    <a class="contacto-item"
+                       href="https://instagram.com/larutadel.litro"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <svg class="icon icon--md" aria-hidden="true"><use href="#icon-instagram"></use></svg>
+                        <span>@larutadel.litro</span>
+                        <small>Instagram</small>
+                    </a>
+                    <div class="contacto-item">
+                        <svg class="icon icon--md" aria-hidden="true"><use href="#icon-calendar"></use></svg>
+                        <span>Horarios</span>
+                        <small>Consultar disponibilidad</small>
+                    </div>
+                    <div class="contacto-item">
+                        <svg class="icon icon--md" aria-hidden="true"><use href="#icon-map-pin"></use></svg>
+                        <span>Cobertura</span>
+                        <small>Pregunta por tu zona</small>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
     <footer>
-        <p>&copy; 2026 Mojito House. Todos los derechos reservados.</p>
+        <div class="footer__inner container">
+            <p class="footer__historia">
+                <strong>La Ruta del Litro</strong> nació de la pasión por los mojitos artesanales y la buena compañía. Hoy llevamos el sabor de la fiesta a donde quieras.
+            </p>
+            <p class="footer__copy">&copy; <span id="year">2026</span> La Ruta del Litro. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
-    <!-- Lightbox: visor de imágenes a pantalla completa -->
+    <!-- CTA FLOTANTE WHATSAPP -->
+    <div id="whatsapp-float" class="whatsapp-float" role="button" tabindex="0" aria-label="Contactar por WhatsApp" title="Contactar por WhatsApp">
+        <svg class="icon icon--lg" aria-hidden="true">
+            <use href="#icon-whatsapp"></use>
+        </svg>
+    </div>
+
+    <!-- Lightbox: visor de imágenes (se mantiene para galería) -->
     <dialog id="lightbox" class="lightbox" aria-label="Visor de imagen">
         <button class="lightbox-cerrar" id="lightbox-cerrar" aria-label="Cerrar">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -189,6 +377,13 @@
         </div>
     </dialog>
 
+        <script src="js/icons.js"></script>
+    <script src="js/product-card.js"></script>
+    <script src="js/catalog-pipeline.js"></script>
+    <script src="js/breather-card.js"></script>
+    <script src="js/shared/ScrollReveal.js"></script>
+    <script src="components/features/gallery/BentoCell.js"></script>
+    <script src="components/features/gallery/BentoGallery.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
