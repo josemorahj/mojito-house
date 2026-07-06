@@ -1,6 +1,6 @@
 /**
  * @file product-card.js
- * @description Componente ProductCard con soporte para isFeatured
+ * @description Componente ProductCard con soporte para isFeatured y jerarquia
  *
  * Dependencias:
  * - getWhatsAppLink() : disponible en app.js (global)
@@ -17,16 +17,17 @@ const ProductCard = (() => {
   /**
    * generateClasses(config)
    * @param {object} config - ProductCardConfig
-   * @returns {object} { container, image, badge, body, cta, title, description }
+   * @returns {object} { container, image, badge, tagJerarquia, body, cta, title, description }
    */
   function generateClasses(config) {
-    const { isFeatured, featuredLayout = 'vertical' } = config;
+    const { isFeatured, featuredLayout = 'vertical', jerarquia } = config;
 
     // ── Clases base (compartidas) ──────────────────────
     const base = {
       container: 'card card--producto',
       image: 'card__img',
       badge: '',
+      tagJerarquia: 'card__jerarquia-tag',
       body: 'card__body',
       cta: 'btn btn-whatsapp card__btn',
       title: '',
@@ -44,6 +45,7 @@ const ProductCard = (() => {
         container: 'card card--producto card--featured card--featured-vertical',
         image: 'card__img card__img--featured card__img--vertical',
         badge: 'card__badge card__badge--featured',
+        tagJerarquia: 'card__jerarquia-tag card__jerarquia-tag--featured',
         body: 'card__body card__body--featured',
         cta: 'btn btn--whatsapp-primary card__btn card__btn--featured',
         title: 'card__title--featured',
@@ -53,6 +55,7 @@ const ProductCard = (() => {
         container: 'card card--producto card--featured card--featured-horizontal',
         image: 'card__img card__img--featured card__img--horizontal',
         badge: 'card__badge card__badge--featured',
+        tagJerarquia: 'card__jerarquia-tag card__jerarquia-tag--featured',
         body: 'card__body card__body--featured-h',
         cta: 'btn btn--whatsapp-primary card__btn card__btn--featured',
         title: 'card__title--featured',
@@ -62,6 +65,7 @@ const ProductCard = (() => {
         container: 'card card--producto card--featured card--featured-hero',
         image: 'card__img card__img--featured card__img--hero',
         badge: 'card__badge card__badge--featured card__badge--hero',
+        tagJerarquia: 'card__jerarquia-tag card__jerarquia-tag--featured card__jerarquia-tag--hero',
         body: 'card__body card__body--featured-hero',
         cta: 'btn btn--whatsapp-primary card__btn card__btn--featured card__btn--hero',
         title: 'card__title--featured card__title--hero',
@@ -88,12 +92,13 @@ const ProductCard = (() => {
       category = '',
       isFeatured = false,
       featuredLayout = 'vertical',
+      jerarquia = null,
       ctaOverride = null
     } = config;
 
     const classes = generateClasses(config);
 
-    // ── Badge (solo si es featured) — icono SVG en lugar de emoji ──
+    // -- Badge (solo si es featured) - icono SVG en lugar de emoji --
     const badgeIcon = typeof Icons !== 'undefined'
       ? Icons.get('flame', { color: 'inherit', size: '0.85em', className: 'badge-icon' })
       : '';
@@ -101,7 +106,18 @@ const ProductCard = (() => {
       ? `<span class="${classes.badge}" aria-label="Producto destacado">${badgeIcon} Del Mes</span>`
       : '';
 
-    // ── CTA ──────────────────────────────────────────
+    // -- Jerarquia Tag: etiqueta comercial sobria (sin emojis) --
+    const jerarquiaEtiquetas = {
+      MasPedido: 'M\u00e1s pedido',
+      FavoritoSemana: 'Favorito de la semana',
+      Recomendado: 'Recomendado',
+      EdicionEspecial: 'Edici\u00f3n especial'
+    };
+    const jerarquiaHTML = jerarquia && jerarquiaEtiquetas[jerarquia]
+      ? `<span class="${classes.tagJerarquia}" aria-label="${jerarquiaEtiquetas[jerarquia]}">${jerarquiaEtiquetas[jerarquia]}</span>`
+      : '';
+
+    // -- CTA --
     let ctaHTML;
     if (ctaOverride) {
       ctaHTML = `
@@ -125,11 +141,12 @@ const ProductCard = (() => {
       `;
     }
 
-    // ── HTML ensamblado ─────────────────────────────
+    // -- HTML ensamblado --
     return `
       <article class="${classes.container}" data-product-id="${id}" data-category="${category}" data-featured="${isFeatured}">
         <div class="card__img-wrapper">
           ${badgeHTML}
+          ${jerarquiaHTML}
           <img
             src="${image}"
             alt="${name}"
@@ -147,8 +164,5 @@ const ProductCard = (() => {
       </article>
     `;
   }
-
-  /* ─── API Pública ───────────────────────────────────── */
-
   return { render };
 })();

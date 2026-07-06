@@ -15,7 +15,6 @@
       })();
     </script>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/gallery-bento.css">
 </head>
 <body>
     <!-- SVG Sprite: iconos inline (oculto visualmente) -->
@@ -205,18 +204,6 @@
         </section>
 
                 <!-- ═══════════════════════════════════════════════════
-             SECCIÓN 3 — PROMOCIONES
-             ═══════════════════════════════════════════════════ -->
-        <section id="promociones" class="section">
-            <div class="container">
-                <h2 class="section-title">Promociones</h2>
-                <div id="destacados-grid" class="card-grid">
-                    <!-- Renderizado dinámico por JS -->
-                </div>
-            </div>
-        </section>
-
-                <!-- ═══════════════════════════════════════════════════
              SECCIÓN 4 — EVENTOS
              ═══════════════════════════════════════════════════ -->
         <section id="eventos" class="section section--eventos">
@@ -294,19 +281,6 @@
             </div>
         </section>
 
-                <!-- ═══════════════════════════════════════════════════
-             SECCIÓN 6 — NUESTROS MOJITOS
-             ═══════════════════════════════════════════════════ -->
-        <section id="galeria" class="section">
-            <div class="container">
-                                <h2 class="section-title">Nuestros Mojitos</h2>
-                <p class="galeria-intro">El alma de La Ruta del Litro en imágenes.</p>
-                                <div id="galeria-grid">
-                    <!-- Renderizado dinámico por BentoGallery -->
-                </div>
-            </div>
-        </section>
-
         <!-- ═══════════════════════════════════════════════════
              SECCIÓN 7 — CONTACTO (SIMPLIFICADO)
              ═══════════════════════════════════════════════════ -->
@@ -360,30 +334,11 @@
         </svg>
     </div>
 
-    <!-- Lightbox: visor de imágenes (se mantiene para galería) -->
-    <dialog id="lightbox" class="lightbox" aria-label="Visor de imagen">
-        <button class="lightbox-cerrar" id="lightbox-cerrar" aria-label="Cerrar">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-        </button>
-        <div class="lightbox-contenido">
-            <img id="lightbox-img" src="" alt="">
-            <div class="lightbox-info">
-                <h3 id="lightbox-titulo"></h3>
-                <p id="lightbox-categoria"></p>
-            </div>
-        </div>
-    </dialog>
-
         <script src="js/icons.js"></script>
     <script src="js/product-card.js"></script>
     <script src="js/catalog-pipeline.js"></script>
     <script src="js/breather-card.js"></script>
     <script src="js/shared/ScrollReveal.js"></script>
-    <script src="components/features/gallery/BentoCell.js"></script>
-    <script src="components/features/gallery/BentoGallery.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

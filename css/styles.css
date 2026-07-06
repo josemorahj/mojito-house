@@ -1873,3 +1873,47 @@ footer {
     height: 24px;
   }
 }
+
+/* -----------------------------------------------------------
+   MÓDULO: Jerarquía Tag — Etiqueta comercial premium
+   ----------------------------------------------------------- */
+
+/* --- Tag base ------------------------------------------ */
+.card__jerarquia-tag {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 6;
+  display: inline-block;
+  padding: var(--space-xxs) var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  background: var(--color-golden-soft);
+  color: var(--color-charcoal);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Sobre featured: ligeramente más grande ------------ */
+.card__jerarquia-tag--featured {
+  font-size: 0.75rem;
+  padding: var(--space-xxs) var(--space-md);
+}
+
+.card__jerarquia-tag--hero {
+  font-size: 0.8rem;
+  padding: var(--space-xs) var(--space-md);
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+/* --- Modo oscuro --------------------------------------- */
+[data-theme="dark"] .card__jerarquia-tag {
+  background: var(--color-cta);
+  color: #0a0e0f;
+}

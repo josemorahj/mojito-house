@@ -136,10 +136,7 @@ function initApp() {
   initFilters();
     initWhatsAppDelegated();
   initWhatsAppFloat();
-  fetchProductos();
-  loadGaleria();
-  initLightbox();
-  fetchPromociones();
+    fetchProductos();
 }
 
 /* ─── Filter State ──────────────────────────────────────── */
@@ -460,7 +457,8 @@ const productosFallback = [
     name: "Mojito Clásico",
     description: "El tradicional con hierbabuena, lima y ron blanco.",
     category: "clasico",
-    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80"
+    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80",
+    jerarquia: "FavoritoSemana"
   },
   {
     id: 2,
@@ -602,4 +600,5 @@ function initFilters() {
     }
   });
 }
+
 
